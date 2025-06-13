@@ -9,8 +9,8 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Pages where Navbar should be hidden
-  const hideNavbarPaths = ['/', '/cart'];
+ 
+  const hideNavbarPaths = ['/'];
   if (hideNavbarPaths.includes(location.pathname)) return null;
 
   const handleLogout = () => {

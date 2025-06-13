@@ -16,53 +16,149 @@ const Cartpage = () => {
   };
 
   return (
-    <div className="container mt-5">
-      <h2 className="text-center mb-4">🎬 Your Movie Cart</h2>
+    <div
+      style={{
+        maxWidth: '1000px',
+        margin: '40px auto',
+        padding: '20px',
+        background: 'linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%)',
+        borderRadius: '12px',
+        boxShadow: '0 8px 20px rgba(0,0,0,0.1)',
+      }}
+    >
+      <h2
+        style={{
+          textAlign: 'center',
+          marginBottom: '30px',
+          color: '#4B0082',
+          fontSize: '32px',
+          fontWeight: 'bold',
+        }}
+      >
+        🎬 Your Movie Cart
+      </h2>
 
       {cartItems.length === 0 ? (
-        <p className="text-center text-muted">🛒 Your cart is empty. Add some movie tickets!</p>
+        <p style={{ textAlign: 'center', fontSize: '18px', color: '#888' }}>
+          🛒 Your cart is empty. Start adding some movie tickets!
+        </p>
       ) : (
         <>
-          <div className="row flex-nowrap overflow-auto pb-3">
-            {cartItems.map((item) => (
-              <div key={item._id || item.id} className="col-10 col-sm-6 col-md-4 col-lg-3 me-3">
-                <div className="card h-100 shadow-sm">
-                  <img
-                    src={item.image || 'https://via.placeholder.com/300x180?text=No+Image'}
-                    className="card-img-top"
-                    alt={item.name}
-                    style={{ height: '180px', objectFit: 'cover' }}
-                  />
-                  <div className="card-body">
-                    <h5 className="card-title">{item.name || '🎬 Movie Name'}</h5>
-                    <p className="card-text text-muted">🗣 Language: {item.language || 'English'}</p>
-                    <p className="card-text">⏰ Show Time: {item.showtime || '6:30 PM'}</p>
-                    <p className="card-text">🎟️ Ticket Price: ₹{item.ticketprice}</p>
-                    <p className="card-text">🪑 Seats: {item.quantity}</p>
-                    <p className="fw-bold">
-                      Subtotal: ₹{(item.quantity * (parseFloat(item.ticketprice) || 0)).toFixed(2)}
-                    </p>
+          {cartItems.map((item) => (
+            <div
+              key={item._id || item.id}
+              style={{
+                display: 'flex',
+                gap: '20px',
+                background: '#fff',
+                borderRadius: '15px',
+                boxShadow: '0 6px 15px rgba(0, 0, 0, 0.1)',
+                padding: '15px',
+                marginBottom: '20px',
+                alignItems: 'center',
+              }}
+            >
+              <img
+                src={item.image || 'https://via.placeholder.com/150x200'}
+                alt={item.name}
+                style={{
+                  width: '120px',
+                  height: '160px',
+                  objectFit: 'cover',
+                  borderRadius: '12px',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+                }}
+              />
 
-                    <div className="d-flex justify-content-between">
-                      <button className="btn btn-outline-success btn-sm" onClick={() => addToCart(item)}>
-                        ➕ Add
-                      </button>
-                      <button className="btn btn-outline-danger btn-sm" onClick={() => removeFromCart(item._id || item.id)}>
-                        ➖ Remove
-                      </button>
-                    </div>
-                  </div>
+              <div style={{ flex: 1 }}>
+                <h3 style={{ margin: 0, color: '#333' }}>{item.name}</h3>
+                <p style={{ margin: '5px 0', color: '#666' }}>
+                  🎬 Directed by <strong>{item.director || 'N/A'}</strong>
+                </p>
+                <p style={{ margin: '5px 0', color: '#666' }}>🗣 Language: {item.language || 'Tamil'}</p>
+                <p style={{ margin: '5px 0', color: '#666' }}>⏰ Show Time: {item.showtime || '6:00 PM'}</p>
+                <p style={{ margin: '5px 0', color: '#000' }}>
+                  💵 ₹{item.ticketprice} x{' '}
+                  <span
+                    style={{
+                      background: '#ffc107',
+                      padding: '2px 8px',
+                      borderRadius: '8px',
+                      color: '#000',
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    {item.quantity}
+                  </span>{' '}
+                  = <strong>₹{(item.quantity * parseFloat(item.ticketprice)).toFixed(2)}</strong>
+                </p>
+
+                <div style={{ marginTop: '10px', display: 'flex', gap: '10px' }}>
+                  <button
+                    onClick={() => addToCart(item)}
+                    style={{
+                      padding: '8px 14px',
+                      backgroundColor: '#28a745',
+                      color: '#fff',
+                      border: 'none',
+                      borderRadius: '8px',
+                      fontWeight: 'bold',
+                      transition: '0.3s',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    ➕ Add
+                  </button>
+                  <button
+                    onClick={() => removeFromCart(item._id || item.id)}
+                    style={{
+                      padding: '8px 14px',
+                      backgroundColor: '#dc3545',
+                      color: '#fff',
+                      border: 'none',
+                      borderRadius: '8px',
+                      fontWeight: 'bold',
+                      transition: '0.3s',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    ➖ Remove
+                  </button>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
 
-          <div className="mt-4 p-4 bg-light rounded shadow-sm">
-            <h5>🧾 Total Tickets: {totalItems}</h5>
-            <h5>💰 Total Amount: ₹{totalPrice.toFixed(2)}</h5>
+          <div
+            style={{
+              backgroundColor: '#fff',
+              padding: '25px',
+              borderRadius: '15px',
+              textAlign: 'center',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+              marginTop: '30px',
+            }}
+          >
+            <h4>🎟️ Total Tickets: {totalItems}</h4>
+            <h4 style={{ marginBottom: '20px' }}>
+              💰 Total Price: <span style={{ color: '#28a745' }}>₹{totalPrice.toFixed(2)}</span>
+            </h4>
 
-            <button className="btn btn-primary mt-3" onClick={handlePayment}>
-              ✅ Proceed to Pay ₹{totalPrice.toFixed(2)}
+            <button
+              onClick={handlePayment}
+              style={{
+                padding: '12px 30px',
+                background: 'linear-gradient(to right, #00b09b, #96c93d)',
+                color: '#fff',
+                fontSize: '16px',
+                border: 'none',
+                borderRadius: '10px',
+                cursor: 'pointer',
+                fontWeight: 'bold',
+                boxShadow: '0 4px 10px rgba(0, 0, 0, 0.15)',
+              }}
+            >
+              ✅ Pay ₹{totalPrice.toFixed(2)}
             </button>
           </div>
         </>
