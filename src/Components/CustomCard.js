@@ -1,17 +1,11 @@
-import React, { useEffect, useState } from "react";
+// CustomCard.js
+import React from "react";
 import { Card } from "antd";
 import { Link } from "react-router-dom";
 
 const { Meta } = Card;
-const CustomCard = () => {
-  const [products, setProducts] = useState([]);
 
-  useEffect(() => {
-    fetch("https://backend-crud-one.vercel.app/product")
-      .then((response) => response.json())
-      .then((data) => setProducts(data))
-      .catch((error) => console.error("Fetch error:", error));
-  }, []);
+const CustomCard = ({ products }) => {
   return (
     <div className="container mt-5">
       <div className="row mt-5">
