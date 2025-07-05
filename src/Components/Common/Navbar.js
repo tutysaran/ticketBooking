@@ -1,5 +1,4 @@
-// Navbar.js
-import React from 'react';
+import React, { useState } from 'react';
 import { Input } from 'antd';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
@@ -8,57 +7,147 @@ const { Search } = Input;
 const Navbar = ({ searchTerm, setSearchTerm }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [showMenu, setShowMenu] = useState(false);
 
- 
   const hideNavbarPaths = ['/'];
   if (hideNavbarPaths.includes(location.pathname)) return null;
 
   const handleLogout = () => {
-    localStorage.removeItem("token"); // ✅ Remove token
-    navigate("/");                    // ✅ Redirect to login
+    localStorage.removeItem('token');
+    navigate('/');
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-primary p-5">
-      <div className="container-fluid d-flex flex-wrap justify-content-between align-items-center">
-        
+    <nav
+      style={{
+        background: 'linear-gradient(to right, #3f2b96, #a8c0ff)',
+        padding: '12px 20px',
+        position: 'sticky',
+        top: 0,
+        zIndex: 1000,
+        boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+      }}
+    >
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+        }}
+      >
         {/* Brand */}
-        <div className="navbar-brand text-white fw-bold fs-4">
+        <div
+          style={{
+            fontSize: '22px',
+            fontWeight: 'bold',
+            color: '#fff',
+            letterSpacing: '1px',
+          }}
+        >
           🎟 Ticketsss
         </div>
 
-        <div className="d-flex flex-wrap align-items-center gap-3 ">
-          <Link to="/home">
-            <button className="btn btn-outline-light">Home</button>
-          </Link>
+        {/* Hamburger for mobile */}
+        <div
+          onClick={() => setShowMenu(!showMenu)}
+          style={{
+            fontSize: '24px',
+            color: '#fff',
+            cursor: 'pointer',
+            display: 'block',
+          }}
+          className="hamburger"
+        >
+          ☰
+        </div>
 
-          <Link to="/movies">
-            <button className="btn btn-outline-light">Movies</button>
-          </Link>
-
-          <Link to="/cart">
-            <button className="btn btn-outline-light">View Cart</button>
-          </Link>
-
-          <button className="btn btn-outline-light" onClick={handleLogout}>
-            LogOut
-          </button>
-
-          {/* Search Input */}
-          <div className="ms-4">
+        {/* Menu Links */}
+        <div
+          style={{
+            display: showMenu ? 'flex' : 'none',
+            flexDirection: 'column',
+            width: '100%',
+            marginTop: '10px',
+          }}
+          className="mobile-links"
+        >
+          <Link to="/home" style={linkStyle}>Home</Link>
+          <Link to="/movies" style={linkStyle}>Movies</Link>
+          <Link to="/cart" style={linkStyle}>Cart</Link>
+          <button onClick={handleLogout} style={buttonStyle}>Logout</button>
+          <div style={{ marginTop: 10, padding: '0 10px' }}>
             <Search
-              placeholder="Search by movie name or director"
+              placeholder="Search movie/director"
               enterButton
               allowClear
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              style={{ maxWidth: 300 }}
+              style={{ width: '100%', maxWidth: 350 }}
             />
           </div>
         </div>
+
+        {/* Desktop Links */}
+        <div
+          className="desktop-links"
+          style={{
+            display: 'none',
+            alignItems: 'center',
+            gap: '15px',
+          }}
+        >
+          <Link to="/home" style={linkStyle}>Home</Link>
+          <Link to="/movies" style={linkStyle}>Movies</Link>
+          <Link to="/cart" style={linkStyle}>Cart</Link>
+          <button onClick={handleLogout} style={buttonStyle}>Logout</button>
+          <Search
+            placeholder="Search movie/director"
+            enterButton
+            allowClear
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={{ width: 250 }}
+          />
+        </div>
       </div>
+
+      {/* Media query for desktop menu */}
+      <style>{`
+        @media (min-width: 768px) {
+          .mobile-links {
+            display: none !important;
+          }
+          .desktop-links {
+            display: flex !important;
+          }
+          .hamburger {
+            display: none !important;
+          }
+        }
+      `}</style>
     </nav>
   );
+};
+
+const linkStyle = {
+  color: '#fff',
+  textDecoration: 'none',
+  padding: '8px 12px',
+  fontSize: '16px',
+  borderRadius: '5px',
+  textAlign: 'center',
+};
+
+const buttonStyle = {
+  background: 'transparent',
+  border: '1px solid white',
+  color: '#fff',
+  padding: '6px 14px',
+  borderRadius: '5px',
+  fontSize: '16px',
+  cursor: 'pointer',
+  margin: '5px auto',
 };
 
 export default Navbar;

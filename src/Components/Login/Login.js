@@ -32,32 +32,47 @@ const Login = () => {
     <div
       style={{
         minHeight: "100vh",
-        background: "linear-gradient(to right, #74ebd5, #acb6e5)",
+        background: "linear-gradient(to right, #2BC0E4, #EAECC6)",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        padding: "20px",
       }}
     >
       <div
         style={{
-          maxWidth: "400px",
+          maxWidth: "420px",
           width: "100%",
-          padding: "2rem",
+          padding: "2.5rem",
           borderRadius: "1rem",
-          backgroundColor: "white",
-          boxShadow: "0 0 15px rgba(0,0,0,0.2)",
+          background: "rgba(255, 255, 255, 0.95)",
+          boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
+          backdropFilter: "blur(10px)",
         }}
       >
-        <h3 style={{ textAlign: "center", marginBottom: "1rem" }}>
-          Welcome back!
-        </h3>
-        <p style={{ textAlign: "center", color: "#888" }}>
-          Please enter your details
+        <h2
+          style={{
+            textAlign: "center",
+            marginBottom: "10px",
+            background: "linear-gradient(to right, #6a11cb, #2575fc)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            fontWeight: "bold",
+            fontSize: "28px",
+          }}
+        >
+          Welcome Back!
+        </h2>
+        <p style={{ textAlign: "center", color: "#555", marginBottom: "2rem" }}>
+          Log in to continue
         </p>
 
         <form onSubmit={handleLogin}>
-          <div style={{ marginBottom: "1rem" }}>
-            <label>Email</label>
+          {/* Email */}
+          <div style={{ marginBottom: "1.5rem" }}>
+            <label style={{ display: "block", marginBottom: "5px", color: "#333" }}>
+              Email
+            </label>
             <input
               type="email"
               required
@@ -66,16 +81,21 @@ const Login = () => {
               placeholder="Enter email"
               style={{
                 width: "100%",
-                padding: "0.5rem",
-                borderRadius: "5px",
+                padding: "0.7rem",
+                borderRadius: "8px",
                 border: "1px solid #ccc",
+                outline: "none",
+                fontSize: "15px",
               }}
             />
           </div>
 
-          <div style={{ marginBottom: "1rem" }}>
-            <label>Password</label>
-            <div style={{ position: "relative", display: "flex" }}>
+          {/* ✅ Password with corrected alignment */}
+          <div style={{ marginBottom: "1.5rem" }}>
+            <label style={{ display: "block", marginBottom: "5px", color: "#333" }}>
+              Password
+            </label>
+            <div style={{ position: "relative" }}>
               <input
                 type={showPassword ? "text" : "password"}
                 required
@@ -83,24 +103,25 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter password"
                 style={{
-                  flex: 1,
-                  padding: "0.5rem",
-                  borderRadius: "5px 0 0 5px",
+                  width: "100%",
+                  padding: "12px 50px 12px 15px",
+                  borderRadius: "8px",
                   border: "1px solid #ccc",
-                  borderRight: "none",
+                  fontSize: "15px",
+                  outline: "none",
+                  boxSizing: "border-box",
                 }}
               />
               <span
                 onClick={() => setShowPassword(!showPassword)}
                 style={{
-                  padding: "0.5rem",
-                  background: "#eee",
-                  border: "1px solid #ccc",
-                  borderLeft: "none",
-                  borderRadius: "0 5px 5px 0",
+                  position: "absolute",
+                  top: "50%",
+                  right: "12px",
+                  transform: "translateY(-50%)",
                   cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
+                  color: "#444",
+                  fontSize: "18px",
                 }}
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
@@ -108,28 +129,36 @@ const Login = () => {
             </div>
           </div>
 
+          {/* Login Button */}
           <button
             type="submit"
             style={{
               width: "100%",
-              padding: "0.6rem",
-              backgroundColor: "#0d6efd",
+              padding: "0.75rem",
+              backgroundColor: "#2575fc",
               color: "#fff",
               border: "none",
-              borderRadius: "5px",
+              borderRadius: "8px",
               fontWeight: "bold",
-              marginBottom: "0.5rem",
+              fontSize: "16px",
+              cursor: "pointer",
+              marginBottom: "1rem",
+              transition: "0.3s ease",
             }}
+            onMouseEnter={(e) => (e.target.style.backgroundColor = "#1a5edb")}
+            onMouseLeave={(e) => (e.target.style.backgroundColor = "#2575fc")}
           >
             Log In
           </button>
 
+          {/* Message */}
           {message && (
             <div
               style={{
                 textAlign: "center",
                 marginTop: "0.5rem",
                 color: message.includes("✅") ? "green" : "red",
+                fontWeight: "bold",
               }}
             >
               {message}
@@ -137,7 +166,8 @@ const Login = () => {
           )}
         </form>
 
-        <div style={{ marginTop: "1rem", textAlign: "center" }}>
+        {/* Google Login */}
+        <div style={{ marginTop: "1.5rem", textAlign: "center" }}>
           <LoginSocialGoogle
             client_id="1015285058515-mp1bflguooeh8otgbf9kk2rm64v9b1lg.apps.googleusercontent.com"
             access_type="offline"
@@ -155,34 +185,19 @@ const Login = () => {
               style={{
                 backgroundColor: "#db4437",
                 color: "white",
-                padding: "0.6rem",
+                padding: "0.7rem",
                 width: "100%",
                 border: "none",
-                borderRadius: "5px",
+                borderRadius: "8px",
                 fontWeight: "bold",
+                fontSize: "16px",
+                cursor: "pointer",
               }}
             >
               <i className="fa-brands fa-google me-2"></i> Log In with Google
             </button>
           </LoginSocialGoogle>
         </div>
-
-        {/* <p style={{ textAlign: "center", marginTop: "1rem" }}>
-          Don’t have an account?{" "}
-          <button
-            onClick={() => navigate("/signup")}
-            style={{
-              background: "none",
-              border: "none",
-              color: "#0d6efd",
-              textDecoration: "underline",
-              cursor: "pointer",
-              padding: 0,
-            }}
-          >
-            Sign Up
-          </button>
-        </p> */}
       </div>
     </div>
   );
